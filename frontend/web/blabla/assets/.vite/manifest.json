@@ -1,8 +1,18 @@
 {
+  "resources/img/icon-logo.png": {
+    "file": "icon-logo-DJS1wMRR.png",
+    "src": "resources/img/icon-logo.png"
+  },
   "resources/js/index.js": {
-    "file": "index-DIch6y_P.js",
+    "file": "index-vrfmrgOi.js",
     "name": "index",
     "src": "resources/js/index.js",
-    "isEntry": true
+    "isEntry": true,
+    "css": [
+      "index-DK5rVoDQ.css"
+    ],
+    "assets": [
+      "icon-logo-DJS1wMRR.png"
+    ]
   }
 }

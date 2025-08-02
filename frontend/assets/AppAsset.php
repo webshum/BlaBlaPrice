@@ -28,7 +28,7 @@ class AppAsset extends AssetBundle
     {
         parent::init();
         
-        if ($_ENV['APP_ENV_FRONT'] === 'local') {
+        if ($_ENV['APP_ENV'] === 'local') {
             $this->js[] = 'http://localhost:5173/@vite/client';
             $this->js[] = 'http://localhost:5173/resources/js/index.js';
         } else {

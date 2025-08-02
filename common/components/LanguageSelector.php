@@ -24,6 +24,5 @@ class LanguageSelector implements BootstrapInterface
 
         Yii::$app->language = $session->get('language', $_ENV['APP_LANG'] ?? 'en-US');
     }
-
 }
 
