@@ -9,10 +9,8 @@ class LanguageSelector implements BootstrapInterface
 {
     public function bootstrap($app)
     {
-        // Не ініціалізуй сесію, якщо заголовки вже надіслані
-        if (!headers_sent()) {
+        if ($app instanceof \yii\web\Application) {
             $session = Yii::$app->session;
-
             if (!$session->isActive) {
                 $session->open();
             }
@@ -27,11 +25,8 @@ class LanguageSelector implements BootstrapInterface
 
             Yii::$app->language = $session->get('language', $_ENV['APP_LANG'] ?? 'en-US');
         } else {
-            // fallback без сесії
             Yii::$app->language = $_ENV['APP_LANG'] ?? 'en-US';
         }
-
-        
     }
 
 }
