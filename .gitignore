@@ -1,0 +1,64 @@
+# ОС і IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Файли середовища
+.env
+.env.local
+.env.*.local
+
+# Локальні конфіги
+config/local.php
+config/db.php
+
+# Каталоги runtime (для кешу, логів, сесій) — ігноруємо все
+runtime/
+frontend/runtime/
+backend/runtime/
+
+# Але дозволяємо зберігати .gitignore в кожному runtime/
+!runtime/.gitignore
+!frontend/runtime/.gitignore
+!backend/runtime/.gitignore
+
+# Логи (зайве, бо runtime/* вже охоплює — але можеш залишити для явності)
+runtime/logs/
+frontend/runtime/logs/
+backend/runtime/logs/
+
+# Сесії
+runtime/sessions/
+frontend/runtime/sessions/
+backend/runtime/sessions/
+
+# Yii assets
+web/assets/*
+frontend/web/assets/*
+backend/web/assets/*
+
+# Але дозволяємо залишити .gitignore
+!web/assets/.gitignore
+!frontend/web/assets/.gitignore
+!backend/web/assets/.gitignore
+
+# Vendor
+/vendor/
+
+# Node.js залежності
+node_modules/
+
+# Build файли
+dist/
+build/
+
+# Кеші та тимчасові файли
+*.cache
+*.tmp
+*.temp
+
+# Папка бази (якщо не хочеш комітити дані)
+mysqlDb

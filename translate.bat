@@ -1,0 +1,1 @@
+yii message/extract common/messages/config.php

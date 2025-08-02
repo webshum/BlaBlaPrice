@@ -1,0 +1,47 @@
+RewriteEngine on
+
+# ------------------------------
+# Правила для адміністративної частини (backend)
+# ------------------------------
+# Якщо URL починається з /admin, віддаємо статичні файли з backend/web/assets, css, js
+RewriteCond %{REQUEST_URI} ^/(admin)
+RewriteRule ^admin/assets/(.*)$ backend/web/assets/$1 [L]
+RewriteRule ^admin/css/(.*)$ backend/web/css/$1 [L]
+RewriteRule ^admin/js/(.*)$ backend/web/js/$1 [L]
+
+# Якщо це не статичні файли backend/web, але URL починається з /admin, перенаправляємо на backend/web/index.php
+RewriteCond %{REQUEST_URI} !^/backend/web/(assets|js|css|js)/
+RewriteCond %{REQUEST_URI} ^/(admin)
+RewriteRule ^.*$ backend/web/index.php [L]
+
+# ------------------------------
+# Правила для статичних ресурсів (assets, css, js, images) frontend
+# ------------------------------
+RewriteCond %{REQUEST_URI} ^/(assets|css|js|images)
+RewriteRule ^assets/(.*)$ frontend/web/assets/$1 [L]
+RewriteRule ^css/(.*)$ frontend/web/css/$1 [L]
+RewriteRule ^js/(.*)$ frontend/web/js/$1 [L]
+RewriteRule ^images/(.*)$ frontend/web/images/$1 [L]
+
+# Якщо /api, то в api/web
+RewriteCond %{REQUEST_URI} ^/api
+RewriteRule ^api/assets/(.*)$ api/web/assets/$1 [L]
+RewriteRule ^api/css/(.*)$ api/web/css/$1 [L]
+RewriteRule ^api/js/(.*)$ api/web/js/$1 [L]
+RewriteCond %{REQUEST_URI} !^/api/web/(assets|css|js)/
+RewriteCond %{REQUEST_URI} ^/api
+RewriteRule ^api/?(.*)$ api/web/index.php [L]
+
+# ------------------------------
+# Правила для решти запитів до frontend
+# ------------------------------
+# Віддаємо файли безпосередньо, якщо вони існують у frontend/web
+RewriteRule ^(.*)$ frontend/web/$1 [L]
+
+# Якщо запит не є файлом чи директорією, і не починається з frontend/web або backend/web (статичні ресурси),
+# то перенаправляємо все на frontend/web/index.php для обробки Yii2
+RewriteCond %{REQUEST_URI} !^/(frontend|backend)/web/(assets|css|js)/
+RewriteCond %{REQUEST_URI} !index.php
+RewriteCond %{REQUEST_FILENAME} !-f [OR]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ frontend/web/index.php [L]

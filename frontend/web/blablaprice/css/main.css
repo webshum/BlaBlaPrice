@@ -1,0 +1,154 @@
+:root {
+	--akcent: #111111;
+}
+
+.wrapper {
+	display: grid;
+	grid-template-columns: 0.3fr 1fr;
+}
+
+/* ------------------- ASIDE ------------------- */
+#aside {
+	min-width: 300px;
+	background-color: var(--akcent);
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	padding: 30px 20px;
+}
+
+/* ------------------- HEADER ------------------- */
+#header {
+
+}
+
+/* ------------------- NAV ------------------- */
+.nav {
+    position: fixed;
+    top: 47px;
+    left: 6vw;
+    right: 0;
+    bottom: 0;
+    z-index: 9;
+    width: 87vw;
+    background: #fff;
+    display: none;
+    opacity: 0;
+}
+.nav:after {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,.8) url(../img/man-3.png) right 60px bottom no-repeat;
+}
+.nav.active {
+    display: block;
+    animation: opacity 0.3s forwards;
+}
+.nav .menu,
+.nav .inner {
+    height: 100%;
+}
+.nav .inner {overflow-y: auto;}
+
+.nav .inner::scrollbar {width: 0;}
+.nav .inner::scrollbar-track {background: none;}
+.nav .inner::scrollbar-thumb {background: var(--color);}
+.nav .inner::-webkit-scrollbar {width: 0;}
+.nav .inner::-webkit-scrollbar-track {background: none;}
+.nav .inner::-webkit-scrollbar-thumb {background: var(--color);}
+
+.nav > .menu {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    width: 25%;
+    border-right: 1px solid #e0e0e0;
+}
+.nav .menu-item {
+    border-bottom: 1px solid #e0e0e0;
+}
+.nav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    position: relative;
+}
+.nav .icon > a:after {
+    content: '';
+    border-top: 5px solid transparent;
+    border-left: 5px solid var(--color);
+    border-bottom: 5px solid transparent;
+    display: inline-block;
+    vertical-align: middle;
+}
+.nav a:hover:after {border-left: 5px solid #fff;}
+.nav a:hover {
+    background: var(--color);
+    color: #fff;
+}
+.sub-menu {
+    background: #fff;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    bottom: 0;
+    border-left: 1px solid #e0e0e0;
+    display: none;
+    opacity: 0;
+    transition: all 0.3s linear;
+}
+.nav .menu-item:hover > .sub-menu {
+    display: block;
+    animation: opacity 0.3s forwards;
+}
+.sub-menu .back-menu {display: none;}
+
+@keyframes opacity {
+    100% {opacity: 1;}
+}
+
+@media screen and (max-width: 991px) {
+    .nav > .menu {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .sub-menu {
+        opacity: 1;
+        display: block;
+        z-index: 3;
+    }
+    .sub-menu.show {left: 0;}
+
+    .sub-menu .back-menu {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+        font-weight: bold;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+    .sub-menu .back-menu:before {
+        content: '';
+        border-top: 5px solid transparent;
+        border-right: 5px solid var(--color);
+        border-bottom: 5px solid transparent;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 20px;
+    }
+}
+/* ---------- // MENU ----------- */
+
+/* ------------------- MAIN ------------------- */
+#main {
+	background-color: #fff;
+}
