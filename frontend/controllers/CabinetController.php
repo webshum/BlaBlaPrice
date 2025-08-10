@@ -726,7 +726,7 @@ class CabinetController extends MenuController
             return $this->render('seller-filter', [
                 'user' => $this->user,
                 'userCategoriesIds' => $userCategoriesIds,
-                'filters' => $filters->filter,
+                'filters' => !empty($filters) ? $filters->filter : null
             ]);
         }
     }
@@ -861,7 +861,7 @@ class CabinetController extends MenuController
             $comment = new Comment();
             $session = Yii::$app->session;
 
-            if ($_FILES['offerImage']) {
+            if (!empty($_FILES['offerImage'])) {
                 $offer->offerImage = $_FILES['offerImage'];
                 $offer->upload();
                 unset($_FILES['offerImage']);
@@ -869,7 +869,10 @@ class CabinetController extends MenuController
             } else if (Yii::$app->request->isPost) {
                 if ($offer->load(Yii::$app->request->post())) {
                     $post = Yii::$app->request->post();
-                    $offer->image = json_encode($post['images']);
+                    
+                    if (!empty($post['images'])) {
+                        $offer->image = json_encode($post['images']);
+                    }
 
                     if ($offer->validate(false) && $offer->save(false)) {
 
@@ -908,7 +911,6 @@ class CabinetController extends MenuController
             }
 
             $filtersQuery = UserFilter::find()->where(['userID' => Yii::$app->user->id])->one();
-            $filters = json_decode($filtersQuery->filter);
 
             if (!$filtersQuery) {
                 $query = Order::find()
@@ -917,21 +919,19 @@ class CabinetController extends MenuController
                     // ->andWhere(['>=','deadLine',date("Y-m-d")])
                     ->andWhere('status>0')
                     ->orderBy('created_at DESC');
-                
-                $orders = $query->offset($pages->offset)->limit($pages->limit)->all();
 
                 $countQuery = clone $query;
                 $countOrder = $countQuery->count();
-                $pages = new Pagination(['totalCount' => $countOrder]);
-                $pages->defaultPageSize = Yii::$app->params['countPage'];
 
                 $pages = new Pagination(['totalCount' => $countOrder]);
                 $pages->defaultPageSize = Yii::$app->params['countPage'];
+
                 $orders = $query->offset($pages->offset)
                     ->limit($pages->limit)
                     ->all();
 
             } else {
+                $filters = json_decode($filtersQuery->filter);
                 $region = '';
                 $primary_categoryID = '';
                 $parent_category = '';
@@ -1016,7 +1016,7 @@ class CabinetController extends MenuController
                 'pages' => $pages,
                 'offer' => $offer,
                 'countOrders' => $countOrder,
-                'filters' => $filters
+                'filters' => !empty($filters) ? $filters : null
             ]);
         }
     }
@@ -1069,10 +1069,18 @@ class CabinetController extends MenuController
         ];
 
         if (Yii::$app->request->isAjax) {
-            $this->user->setUsername(strip_tags(Yii::$app->request->post('User')['username'] ?? ''));
-            $this->user->setAddress(strip_tags(Yii::$app->request->post('User')['address']));
-            $this->user->setRegionID(Yii::$app->request->post('User')['region_id']);
+            if (!empty(Yii::$app->request->post('User')['username'])) {
+                $this->user->setUsername(strip_tags(Yii::$app->request->post('User')['username'] ?? ''));
+            }
+
+            if (!empty(Yii::$app->request->post('User')['address'])) {
+                $this->user->setAddress(strip_tags(Yii::$app->request->post('User')['address']));
+            }
             
+            if (!empty(Yii::$app->request->post('User')['region_id'])) {
+                $this->user->setRegionID(Yii::$app->request->post('User')['region_id']);
+            }
+
             if ($this->user->validate() && $this->user->save()) {
                 $response = [
                     'result' => true,
@@ -1416,7 +1424,7 @@ class CabinetController extends MenuController
     public function actionPayment() {
         return $this->render('seller-payment', [
             'user' => $this->user,
-            'title' => $title,
+            'title' => Yii::t('app', 'поповніть ваш баланс'),
         ]);
     }
 

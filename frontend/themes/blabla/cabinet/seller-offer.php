@@ -1,4 +1,5 @@
 <?php
+use yii\widgets\ActiveForm;
 use common\models\User;
 /**
  * @var \yii\web\View $this
@@ -19,8 +20,6 @@ $regionList = array_merge($regionList, Yii::$app->params['region'][Yii::$app->la
 	</div>
 
 	<h2 class="heading"><?= Yii::t('app', 'Мої пропозиції') ?></h2>
-	
-	
 		<div class="blabla-comment dark ">
         	<div class="text shadow-pulse-black">
         		<strong>
@@ -30,7 +29,6 @@ $regionList = array_merge($regionList, Yii::$app->params['region'][Yii::$app->la
 				<?= Yii::t('app', 'А якщо покупець погодиться на пропозицію іншого продавця — запит автоматично видалиться з твого акаунта.'); ?>
         	</div>
         </div>
-	
 	
 	<div class="empty-space-40"></div>
 
@@ -56,7 +54,7 @@ $regionList = array_merge($regionList, Yii::$app->params['region'][Yii::$app->la
             		<div class="text-right">
             			<?php 
             				echo $this->render('@appTheme/components/message', [
-								'nameReviews' => $order_item,
+								'nameReviews' => !empty($order_item) ? $order_item : null,
 	                            'budget' => $offer_item->price,
 	                            'comment' =>  $offer_item->comment,
 	                            'date' => $offer_item->getCreatedAt()

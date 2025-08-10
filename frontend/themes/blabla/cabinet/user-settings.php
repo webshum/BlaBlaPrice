@@ -17,7 +17,7 @@ use frontend\models\SignupForm;
 // generate regions
 $regionList = [];
 $regionList[0] = Yii::t('app', '--- Не вказано ---');
-$regionList = array_merge($regionList, Yii::$app->params['region']);
+$regionList = array_merge($regionList, Yii::$app->params['region'][Yii::$app->language]);
 ?>
 
 <div class="center page-settings">
@@ -38,9 +38,7 @@ $regionList = array_merge($regionList, Yii::$app->params['region']);
     </div>
 
     <ul class="accordeon accordeon-settings mt40">
-	
-	
-		  <li class="item-accordeon active">
+		<li class="item-accordeon active">
             <div class="btn-accordeon">
                 <span><?= Yii::t('app', 'Контактна інформація'); ?></span>
                 <svg width="11" height="7"><use xlink:href="#arrow"></use></svg>
@@ -52,7 +50,7 @@ $regionList = array_merge($regionList, Yii::$app->params['region']);
                         <div class="field">
                             <?php $form = ActiveForm::begin([
                                 'action' => Url::toRoute('cabinet/settings-update-phone'),
-                                'id' => 'settings-update'
+                                'id' => 'settings-update-phone'
                             ]) ?>
 
                                 <?php
@@ -128,7 +126,7 @@ $regionList = array_merge($regionList, Yii::$app->params['region']);
                 <div class="inner-accordeon">
                     <?php $form = ActiveForm::begin([
                         'action' => Url::toRoute('cabinet/settings-update'),
-                        'id' => 'settings-update'
+                        'id' => 'settings-update-user'
                     ]) ?>
 
                         <div class="input-group">
@@ -165,8 +163,6 @@ $regionList = array_merge($regionList, Yii::$app->params['region']);
                 </div>
             </div>
         </li>
-
-      
 
         <li class="item-accordeon">
             <div class="btn-accordeon">
@@ -240,8 +236,11 @@ $regionList = array_merge($regionList, Yii::$app->params['region']);
 
 <div class="page-flash-messages"></div>
 
-<script type="text/javascript">
-    $('#settings-update').on('beforeSubmit', function () {
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    $('#settings-update-user').on('beforeSubmit', function (e) {
+        e.preventDefault();
+        
         $.ajax({
             url: '/cabinet/settings-update',
             type: 'post',
@@ -275,4 +274,30 @@ $regionList = array_merge($regionList, Yii::$app->params['region']);
 
         return false;
     });
+
+    $('#change-email').on('beforeSubmit', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '/cabinet/change-email',
+            type: 'post',
+            data: $(this).closest('form').serialize(),
+            dataType: 'json'
+        }).done(function (data) {
+            if (data.result == true && data.emailSent == true) {
+                $('#email-address').removeClass('active').hide();
+                location.reload();
+            } else if (data.result == false && data.message) {
+                $('.page-flash-messages').html('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close"></a><strong>' + data.message + '</strong></div>');
+
+                $.each(data.errors, function () {
+                    $.each(this, function (key, value) {
+                        $('.page-flash-messages').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close"></a><strong>' + value + '</strong></div>');
+                    });
+                });
+            }
+        });
+        return false;
+    });
+});
 </script>

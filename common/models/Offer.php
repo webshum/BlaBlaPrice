@@ -165,15 +165,23 @@ class Offer extends \yii\db\ActiveRecord
     public function upload()
     {
         $tmp = $this->offerImage['tmp_name'];
-        $file_ext = strtolower(end(explode('.', $this->offerImage['name'])));
+
+        $parts = explode('.', $this->offerImage['name']);
+        $file_ext = strtolower(end($parts));
         $filename = uniqid() . '.' . $file_ext;
-        $uploaddir = './uploads/';  
-        $download = $_SERVER['HTTP_ORIGIN'] . '/uploads/';   
-        if( ! is_dir( $uploaddir ) ) mkdir( $uploaddir, 0777 );
+
+        $uploaddir = './uploads/';
+        $download = $_SERVER['HTTP_ORIGIN'] . '/uploads/';
+
+        if (!is_dir($uploaddir)) {
+            mkdir($uploaddir, 0777, true);
+        }
+
         move_uploaded_file($tmp, $uploaddir . $filename);
-        
+
         echo $download . $filename;
     }
+
 
     /**
      * @inheritdoc

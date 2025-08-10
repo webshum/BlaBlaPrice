@@ -47,70 +47,66 @@ $user = User::findOne(['ID' => Yii::$app->user->id]);
                    
                 ]);
     		?>
-    		
-    		
-                <?php if (($user->bal <= 0) || ($category->price > $user->bal)) : ?>
-    				<div class="blabla-comment dark first">
-                        <div class="text shadow-pulse-black">
-                             <p><?= Yii::t('app', 'Відповідайте на запити покупців — це повністю безкоштовно.'); ?><br><br>
-								<?= Yii::t('app', 'Якщо покупець обере саме вашу пропозицію — ви і клієнт обміняєтесь контактами для узгодження деталей замовлення.'); ?><br>
-							</p>
-                        </div>
-                    </div>
-                    <div class="blabla-comment dark not-first last">
-    					<div class="text shadow-pulse-black">
-    						
-    						<?= Yii::t('app', 'Щоб обмінюватись контактами — ваш баланс має бути поповнений.'); ?><br><br>
-                            <a href="/cabinet/payment" class="menu-button blue" style="margin-top:10px">
-                                <?= Yii::t('app', 'Поповнити баланс'); ?>
-                            </a>
-    					</div>
-    				</div>
-    			<?php else : ?>
-    				<div class="blabla-comment dark ">
-    					<div class="text shadow-pulse-black">
-    						
-    						<?= Yii::t('app', 'Надай відповідь клієнту, або видали запит'); ?>
-    							
-    						</div>
-    				</div>
-    				<div class="drop-menu active">
-    					<a href="#">
-    						<span><?= Yii::t('app', 'Твої дії'); ?></span>	 <svg><use xlink:href="#dot"></use></svg>
-    					</a>
 
-    					<ul class="drop active">
-    						<li>
-    							<a href="#" data-tab="tab-answer" class="js-answer" >
-    								<svg><use xlink:href="#offers"></use></svg>
-    								<?= Yii::t('app', 'Відповісти клієнту'); ?>	
-    							</a>
-    						</li>
-    						<li>
-    							<a href="#" data-tab="tab-spam" class="js-spam" style=" color:#d62a2b" >
-    								<svg><use xlink:href="#delete"></use></svg>
-    								<?= Yii::t('app', 'Видалити чат'); ?>	
-    							</a>
-    						</li>
-    						<li>
-    						<a href="#" class="js-close-popup">
-    							<svg class="close-chat"><use xlink:href="#close-layer"></use></svg>
-    								<?= Yii::t('app', 'Закрити вікно чату'); ?>
-    								
-    						</a>
-    					</li>
-    					
-    					</ul>
-    				</div>	
-    			<?php endif; ?>
-    		
-    		
-    		
+            <?php if ($user->bal <= 0) : ?>
+				<div class="blabla-comment dark first">
+                    <div class="text shadow-pulse-black">
+                         <p><?= Yii::t('app', 'Відповідайте на запити покупців — це повністю безкоштовно.'); ?><br><br>
+							<?= Yii::t('app', 'Якщо покупець обере саме вашу пропозицію — ви і клієнт обміняєтесь контактами для узгодження деталей замовлення.'); ?><br>
+						</p>
+                    </div>
+                </div>
+                <div class="blabla-comment dark not-first last">
+					<div class="text shadow-pulse-black">
+						
+						<?= Yii::t('app', 'Щоб обмінюватись контактами — ваш баланс має бути поповнений.'); ?><br><br>
+                        <a href="/cabinet/payment" class="menu-button blue" style="margin-top:10px">
+                            <?= Yii::t('app', 'Поповнити баланс'); ?>
+                        </a>
+					</div>
+				</div>
+			<?php else : ?>
+				<div class="blabla-comment dark ">
+					<div class="text shadow-pulse-black">
+						
+						<?= Yii::t('app', 'Надай відповідь клієнту, або видали запит'); ?>
+							
+						</div>
+				</div>
+				<div class="drop-menu active">
+					<a href="#">
+						<span><?= Yii::t('app', 'Твої дії'); ?></span>	 <svg><use xlink:href="#dot"></use></svg>
+					</a>
+
+					<ul class="drop active">
+						<li>
+							<a href="#" data-tab="tab-answer" class="js-answer" >
+								<svg><use xlink:href="#offers"></use></svg>
+								<?= Yii::t('app', 'Відповісти клієнту'); ?>	
+							</a>
+						</li>
+						<li>
+							<a href="#" data-tab="tab-spam" class="js-spam" style=" color:#d62a2b" >
+								<svg><use xlink:href="#delete"></use></svg>
+								<?= Yii::t('app', 'Видалити чат'); ?>	
+							</a>
+						</li>
+						<li>
+						<a href="#" class="js-close-popup">
+							<svg class="close-chat"><use xlink:href="#close-layer"></use></svg>
+								<?= Yii::t('app', 'Закрити вікно чату'); ?>
+								
+						</a>
+					</li>
+					
+					</ul>
+				</div>	
+			<?php endif; ?>
         </div>
     </div>
 
    
-        <?php if (($user->bal <= 0) || ($category->price > $user->bal)) : ?>
+        <?php if ($user->bal <= 0) : ?>
 		  
         <?php else : ?>
             <div class="tabs-block">

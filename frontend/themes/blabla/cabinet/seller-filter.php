@@ -38,7 +38,6 @@ $userFilters = UserFilter::find()->where(['userID' => Yii::$app->user->id])->one
 							   	<svg width="18" height="18"><use xlink:href="#save"></use></svg>
 				                <span>
 				                	<?= Yii::t('app', 'Зберегти'); ?>
-			                		<input type="hidden" class="count-filter" name="count_filter" value="<?= $count; ?>">
 			                	</span>
 				            </button>  
 			          	</div>

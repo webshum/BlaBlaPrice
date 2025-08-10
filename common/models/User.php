@@ -215,6 +215,18 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public static function isRole($role)
+    {
+        $identity = Yii::$app->user->identity;
+        return $identity && $identity->role === $role;
+    }
+
+    public static function isNotRole($role)
+    {
+        $identity = Yii::$app->user->identity;
+        return !$identity || $identity->role !== $role;
+    }
+
     /**
      * @inheritdoc
      */
@@ -464,22 +476,20 @@ class User extends ActiveRecord implements IdentityInterface
     public function activeOrderSeller($id)
     {
             $filtersQuery = UserFilter::find()->where(['userID' => $id])->one();
-            $filters = json_decode($filtersQuery->filter);
 
             if (!$filtersQuery) {
-
                 $query = Order::find()
                     ->where('id NOT IN (SELECT orderID FROM complaint_order WHERE sellerId='.$id.')')
                     ->andWhere('id NOT IN (SELECT orderID FROM offer WHERE userId='.$id.')')
                     ->andWhere('status>0')
                     ->andWhere(['>=','deadLine',date("Y-m-d")])
                     ->all();
-
             } else {
+                $filters = json_decode($filtersQuery->filter);
                 $region = '';
                 $category = '';
 
-                if ($filters->region[0] > 0) {
+                if (!empty($filters) && isset($filters->region)) {
                     foreach ($filters->region as $key => $val) {
                         $region .= $val . ',';
                     }
@@ -487,19 +497,19 @@ class User extends ActiveRecord implements IdentityInterface
 
                 $region .= '0';
 
-                if ($filters->category) {
+                if (!empty($filters) && isset($filters->category)) {
                     foreach ($filters->category as $key => $val) {
                         $category .= $val . ',';
                     }
                 }
 
-                if ($filters->third_level_category) {
+                if (!empty($filters) && isset($filters->third_level_category)) {
                     foreach ($filters->third_level_category as $key => $val) {
                         $category .= $val . ',';
                     }
                 }
 
-                if ($filters->fourth_level_category) {
+                if (!empty($filters) && isset($filters->fourth_level_category)) {
                     foreach ($filters->fourth_level_category as $key => $val) {
                         $category .= $val . ',';
                     }
@@ -518,20 +528,6 @@ class User extends ActiveRecord implements IdentityInterface
                      ->all();
 
             }
-        // $order = Order::find()
-            // ->leftJoin('{{%offer}}', '{{%offer}}.orderID = {{%order}}.ID')
-            // ->leftJoin('{{%user}}', '{{%user}}.ID = {{%order}}.userID')
-            // ->where(['{{%order}}.status' => Order::STATUS_ACTIVE]);
-
-        // if ($this->user2category) {
-            // $order->andWhere(['categoryID' => $this->user2category]);
-        // }
-
-        // $order->andWhere('({{%order}}.deadLine >= "' . date('Y-m-d H:i:s', time()) . '")')
-            // ->andWhere('({{%offer}}.userID IS NULL) OR ((SELECT offer1.userID FROM {{%offer}} offer1 WHERE offer1.orderID = {{%order}}.ID AND userID = ' . $id . ' LIMIT 1) IS NULL)')
-            // //->andWhere(['{{%user}}.status' => User::STATUS_ACTIVE])
-            // ->groupBy('{{%order}}.ID')
-            // ->orderBy('{{%order}}.updated_at DESC');
 
         return count($query);
     }

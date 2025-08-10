@@ -26,7 +26,7 @@ $session = Yii::$app->session;
                    <i class="icon-menu"></i>
                 </div>
 
-                <?php if (Yii::$app->user->identity->role == User::ROLE_USER) : ?>
+                <?php if (User::isRole(User::ROLE_USER)) : ?>
                     <div class="logged-buttons-wrapper">
                         <div class="logged-menu">
 
@@ -48,7 +48,7 @@ $session = Yii::$app->session;
 					 </div>
                     </div>
 
-                <?php elseif (Yii::$app->user->identity->role == User::ROLE_SELLER) : ?>
+                <?php elseif (User::isRole(User::ROLE_SELLER)) : ?>
                     <div class="logged-buttons-wrapper">
                         <div class="logged-menu">
 
@@ -84,7 +84,7 @@ $session = Yii::$app->session;
         </div>
     </div>
 	
-<?php if (Yii::$app->user->identity->role == User::ROLE_USER) : ?>
+<?php if (User::isRole(User::ROLE_USER)) : ?>
     <div class="header-middle visible-lg">
         <div class="menu-button menu-button-style visible-lg"><?php echo Yii::t('app', 'Підібрати'); ?></div>
         <div class="header-search visible-lg">
@@ -124,7 +124,7 @@ $session = Yii::$app->session;
                                         </div>
 </div>
 
-<?php if (Yii::$app->user->identity->role == User::ROLE_USER) : ?>
+<?php if (User::isRole(User::ROLE_USER)) : ?>
     <div class="responsive-buttons hidden-lg">
 	
         <div class=" menu-button">

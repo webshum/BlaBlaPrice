@@ -46,11 +46,22 @@ use yii\helpers\Url;
 		<div class="empty-space-40"> </div>
 	<?php foreach ($offer as $offers_item) : ?>
 		<div class="request open-popup" data-param="<?= $offers_item->getID() ?>" data-rel="user-accepted">
-		 	<?= $this->render('@appTheme/components/request-head', [
-		 		'title' => $offers_item->order->product->name ? $offers_item->order->product->name : $offers_item->order->category->name,
-		 		
-		 		'button' => true
-		 	]); ?>
+		 	<?php
+		 		$title = '';
+
+		 		if (!empty($offers_item->order)) {
+					if (!empty($offers_item->order->product) && !empty($offers_item->order->product->namel)) {
+						$title = $offers_item->order->product->namel;
+					} elseif (!empty($offers_item->order->category) && !empty($offers_item->order->category->name)) {
+						$title = $offers_item->order->category->name;
+					}
+				}
+
+			 	echo $this->render('@appTheme/components/request-head', [
+			 		'title' => $title,
+			 		'button' => true
+			 	]); 
+		 	?>
 
 		 	<div class="request-body">
 					<div class="request-info">

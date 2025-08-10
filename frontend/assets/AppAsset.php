@@ -17,7 +17,12 @@ class AppAsset extends AssetBundle
 
     public $js = [];
 
-    public $depends = [];
+    public $depends = [
+        \yii\web\JqueryAsset::class,
+        \yii\web\YiiAsset::class,
+        \yii\validators\ValidationAsset::class,
+        \yii\widgets\ActiveFormAsset::class,
+    ];
 
     public $jsOptions = [
         'type' => 'module',

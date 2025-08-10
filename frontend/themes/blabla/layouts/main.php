@@ -85,16 +85,20 @@ AppAsset::register($this);
             $message = [];
 
             foreach ($flash as $errorName => $errorMessage) {
-                if ($errorName == 'success') {
-                    $message['type'] = 'success';
-                } else {
-                    $message['type'] = 'error';
+                if (!empty($message['type'])) {
+                    if ($errorName == 'success') {
+                        $message['type'] = 'success';
+                    } else {
+                        $message['type'] = 'error';
+                    }
                 }
-
-                if (is_array($errorMessage) && isset($errorMessage['0'])) {
-                    $message['message'] .= $errorMessage['0'] . PHP_EOL;
-                } else {
-                    $message['message'] .= $errorMessage . PHP_EOL;
+                
+                if (!empty($message['message'])) {
+                    if (is_array($errorMessage) && isset($errorMessage['0'])) {
+                        $message['message'] .= $errorMessage['0'] . PHP_EOL;
+                    } else {
+                        $message['message'] .= $errorMessage . PHP_EOL;
+                    }
                 }
             }
         ?>
@@ -128,7 +132,7 @@ AppAsset::register($this);
     <div class="wrapper" id="vue-app">
         <?= $this->render('aside-left'); ?>
 
-        <main id="main" <?php if ( $currentPageUrl !== "/") : ?> style=""  <?php endif; ?>   >
+        <main id="main">
             <?= $content ?>
         </main>
 

@@ -1,14 +1,8 @@
-import jQuery from 'jquery';
-window.$ = window.jQuery = jQuery;
-import IMask from 'imask';
-import phoneMasks from './data/phoneMasks.json';
-
 window.onload = function() {
     var today = new Date();
     today.setDate(today.getDate()+10);
 }
 
-jQuery(document).ready(function ($) {
 document.querySelectorAll('textarea').forEach(field => {
     field.addEventListener('focus', function () {
         this.style.height = '100px';
@@ -18,31 +12,6 @@ document.querySelectorAll('textarea').forEach(field => {
         this.removeAttribute('style');
     });
 });
-
-/* PHONE MASK
------------------------------------- */
-function maskPhone() {
-    const input = document.getElementById('signupform-phone');
-    if (!input) return; 
-
-    const parent = input.closest('.form-group');
-    if (!parent) return; 
-
-    const maskData = phoneMasks?.[window.phonemask];
-    if (!maskData) return;
-
-    if (!parent.querySelector('.phone-flag')) {
-        const flagSpan = document.createElement('span');
-        flagSpan.classList.add('phone-flag');
-        flagSpan.textContent = maskData.flag;
-        parent.insertBefore(flagSpan, input);
-    }
-    
-    input.placeholder = maskData.mask;
-    IMask(input, { mask: maskData.mask });
-}
-
-if (document.getElementById('signupform-phone') != null) maskPhone();
 
 /* DROP
 ------------------------------------ */
@@ -131,7 +100,7 @@ function accordeon() {
 
     if (accordeon != null) {
         for (var i = 0; i < accordeon.length; i++) {
-            let item = accordeon[i].querySelectorAll('.item-accordeon');
+            item = accordeon[i].querySelectorAll('.item-accordeon');
 
             for (var j = 0; j < item.length; j++) {
                 let btn = item[j].querySelector('.btn-accordeon');
@@ -550,10 +519,8 @@ function registerSocial() {
     const submit = register.querySelectorAll('button[type="submit"]');
     const form = register.querySelector('form');
 
-    submit.forEach(btn => {
-        console.log(btn);
-        btn.addEventListener('click', function() {
-            console.log('click');
+    submit.forEach(submit => {
+        submit.addEventListener('click', function() {
             let data = "role=" + form.querySelector('input[type="radio"]:checked').value
             + "&email=" + register.dataset.email;
             
@@ -698,23 +665,9 @@ function loginIn() {
 /* MAIN MENU
 ---------------------------------------------- */
 function menu() {
-    const nav = document.querySelector('.nav');
     const linkAll = document.querySelectorAll('.menu-item.icon > a');
     const backAll = document.querySelectorAll('.back-menu');
     const breakpoint = window.matchMedia('(max-width: 991px)');
-    const buttons = document.querySelectorAll('.menu-button, .header-menu-close, .btn-filter');
-
-    buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            nav.classList.toggle('active');
-        });
-    });
-
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('nav')) {
-            nav.classList.toggle('active');
-        }
-    });
 
     linkAll.forEach(link => {
         link.addEventListener('click', (e) => {
@@ -758,6 +711,7 @@ function menu() {
 
 menu();
 
+jQuery(document).ready(function () {
     $('#aside-left .link-btn').click(function() {
         $(this).closest('.foot').find('ul').slideToggle(100);
     });
@@ -1130,9 +1084,6 @@ menu();
                 url: '/popup/' + rel,
                 type: 'post',
                 data: post_data,
-                headers: {
-                    'X-CSRF-Token': jQuery('meta[name="csrf-token"]').attr('content')
-                },
                 beforeSend: function() {
                     root.addClass('preloader');
                 },
@@ -1161,7 +1112,7 @@ menu();
                     });
                 }
             });
-        });
+        })
     }
 
     function order_disable(root) {
@@ -1223,63 +1174,12 @@ menu();
         });
     }
 
-    function submit_form() {
-        jQuery('.submit-form').on('click', function () {
-            const form = jQuery(this).closest('form').get(0);
-            console.log(jQuery(this).closest('form').get(0));
-            form.submit();
+    function submit_form(root) {
+        jQuery('.submit-form', root).on('click', function () {
+            jQuery(this).closest('form').submit();
         });
     }
 
-    function popup_main() {
-        function open_popup(rel) {
-            $('.popup-content').removeClass('active');
-            var win = $('.popup-wrapper, .popup-content[data-rel="'+rel+'"]').addClass('active');
-            popup_arr.push(win);
-            $('html').addClass('overflow-hidden');
-        }
-
-        $(document).on('click', '.open-static-popup', function(){
-            open_static_popup($(this).data('rel'));
-            return false;
-        });
-
-        function open_static_popup(rel) {
-            $('.popup-content').removeClass('active');
-            var win = $('.popup-wrapper, .popup-content[data-rel="'+rel+'"]').addClass('active');
-            popup_arr.push(win);
-            $('html').addClass('overflow-hidden');
-        }
-
-        //open and close popup
-        var popup_arr = [];
-        $(document).on('click', '.open-popup', function(){
-            open_popup($(this).data('rel'));
-            return false;
-        });
-
-        $('.popup-content[autoload]').each(function () {
-            open_popup($(this).data('rel'));
-        })
-
-        $('.close-pop-btn').click(function () {
-            $('.close-popup').click();
-        });
-
-        $(document).on('click', '.popup-wrapper .close-popup', function(){
-            $('.popup-wrapper, .popup-content').removeClass('active');
-            popup_arr.pop();
-            if (popup_arr.length > 0) {
-                popup_arr[popup_arr.length - 1].addClass('active');
-            } else {
-                $('html').removeClass('overflow-hidden');
-            }
-
-            return false;
-        });
-    }
-        
-    popup_main();
     category_submit();
     order_popup();
     submit_form();

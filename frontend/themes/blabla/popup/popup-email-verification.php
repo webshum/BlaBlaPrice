@@ -44,28 +44,3 @@ if (Yii::$app->user->isGuest) {
         <?php $form->end(); ?>
     </div>
 </div>
-
-<script type="text/javascript">
-    $('#change-email').on('beforeSubmit', function () {
-        $.ajax({
-            url: '/cabinet/change-email',
-            type: 'post',
-            data: $(this).closest('form').serialize(),
-            dataType: 'json'
-        }).done(function (data) {
-            if (data.result == true && data.emailSent == true) {
-                $('#email-address').removeClass('active').hide();
-                location.reload();
-            } else if (data.result == false && data.message) {
-                $('.page-flash-messages').html('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close"></a><strong>' + data.message + '</strong></div>');
-
-                $.each(data.errors, function () {
-                    $.each(this, function (key, value) {
-                        $('.page-flash-messages').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close" title="close"></a><strong>' + value + '</strong></div>');
-                    });
-                });
-            }
-        });
-        return false;
-    });
-</script>

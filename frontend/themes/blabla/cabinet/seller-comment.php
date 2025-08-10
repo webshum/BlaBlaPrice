@@ -39,12 +39,15 @@ $comment_item = array();
                         <?= Yii::t('app','Відгуки'); ?>
                     </a>
                 </li>
-				<li class="tab-menu">
-		    		<a href="<?= Url::to(['cabinet/comment-refuse']) ?>">
-		    			<?= $count_refuses; ?>
-						<?= Yii::t('app','Відмовились'); ?>
-		    		</a>
-		    	</li>
+
+                <?php if (!empty($count_refuses)) : ?>
+					<li class="tab-menu">
+			    		<a href="<?= Url::to(['cabinet/comment-refuse']) ?>">
+			    			<?= $count_refuses; ?>
+							<?= Yii::t('app','Відмовились'); ?>
+			    		</a>
+			    	</li>
+			    <?php endif; ?>
             </ul>
 		</div>
 

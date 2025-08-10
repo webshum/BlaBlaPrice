@@ -22,9 +22,9 @@ use common\models\User;
 		</div>
 
 		<?php 
-			if (Yii::$app->user->identity->role == User::ROLE_SELLER) {
+			if (User::isRole(User::ROLE_SELLER)) {
 				echo $this->render('@appTheme/cabinet/seller-sidebar');
-			} else if (Yii::$app->user->identity->role == User::ROLE_USER) {
+			} else if (User::isRole(User::ROLE_USER)) {
 				echo $this->render('@appTheme/cabinet/user-sidebar');
 			}
 		?>
@@ -50,7 +50,7 @@ use common\models\User;
 	                    </a>
 		    		</li>
 
-		    		<?php if (Yii::$app->user->identity->role == User::ROLE_SELLER) : ?>
+		    		<?php if (User::isRole(User::ROLE_SELLER)) : ?>
 		    			<li>
 							<a href="/cabinet/filter" class="<?= active('filter') ?>">
 								<svg width="18" height="18"><use xlink:href="#filter"></use></svg>

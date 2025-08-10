@@ -33,8 +33,7 @@ $regionList = array_merge($regionList, Yii::$app->params['region']);
 
     <ul class="accordeon accordeon-settings mt40">
 	
-	
-		     <li class="item-accordeon active">
+		<li class="item-accordeon active">
             <div class="btn-accordeon">
                 <span><?= Yii::t('app', 'Контактна інформація') ?></span>
                 <svg width="11" height="7"><use xlink:href="#arrow"></use></svg>
@@ -111,9 +110,7 @@ $regionList = array_merge($regionList, Yii::$app->params['region']);
                 </div>
             </div>
         </li>
-	
-	
-	
+
         <li class="item-accordeon ">
             <div class="btn-accordeon">
                 <span><?= Yii::t('app', 'Особисті дані') ?></span>
@@ -158,9 +155,7 @@ $regionList = array_merge($regionList, Yii::$app->params['region']);
                     <?php ActiveForm::end() ?>
                 </div>
             </div>
-        </li>
-
-   
+        </li> 
 
         <li class="item-accordeon">
             <div class="btn-accordeon">
@@ -239,15 +234,21 @@ $regionList = array_merge($regionList, Yii::$app->params['region']);
 	<?= $this->render('@appTheme/popup/popup-account-reset-password'); ?>
 </div>
 
-<script type="text/javascript">
+<div class="page-flash-messages"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
     $('.settings-update').on('beforeSubmit', function (e) {
+        e.preventDefault();
+        
         $.ajax({
             url: '/cabinet/settings-update',
             type: 'post',
-            data: $(this).serialize(),
+            data: $(this).closest('form').serialize(),
             dataType: 'json'
         }).done(function (data) {
             $('.page-flash-messages').html('');
+            
             if (data.result == true) {
                 var flashSuccess = '<div class="alert alert-info">';
                 flashSuccess += '<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close"></a>';
@@ -255,13 +256,16 @@ $regionList = array_merge($regionList, Yii::$app->params['region']);
                 flashSuccess += '</div>';
                 $('.page-flash-messages').append(flashSuccess);
             } else if (data.result == false) {
-                console.log(data.errors);
+
                 $.each(data.errors, function () {
                     $.each(this, function (key, value) {
                         var flashError = '<div class="alert alert-danger">';
                         flashError += '<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close"></a>';
                         flashError += '<strong><?= Yii::t('app', 'Помилка!') ?></strong> ' + value;
                         flashError += '</div>';
+
+                        console.log($('.page-flash-messages'));
+
                         $('.page-flash-messages').append(flashError);
                     });
                 });
@@ -270,6 +274,5 @@ $regionList = array_merge($regionList, Yii::$app->params['region']);
 
         return false;
     });
+});
 </script>
-
-<?= $this->render('/site/footer'); ?>

@@ -24,7 +24,7 @@ use common\models\User;
 	    </li>
 	
 	<?php $currentPageUrl = $_SERVER['REQUEST_URI'];?>
-    <?php if (Yii::$app->user->identity->role == User::ROLE_USER) : ?>
+    <?php if (User::isRole(User::ROLE_USER)) : ?>
 	
 		<li class="item-accordeon">
 	        <div class="btn-accordeon">
@@ -156,7 +156,7 @@ use common\models\User;
 		</li>
  <?php endif; ?>
  
- <?php if (Yii::$app->user->identity->role == User::ROLE_SELLER) : ?>
+ <?php if (User::isRole(User::ROLE_SELLER)) : ?>
  <li class="item-accordeon">
 	        <div class="btn-accordeon">
 	        	<span><?= Yii::t('app', 'Чи потрібно платити за реєстрацію на сервісі?'); ?></span>

@@ -6,6 +6,7 @@ use common\models\User;
 use frontend\models\Category;
 use common\models\Category as Cat;
 
+$user = Yii::$app->user;
 ?>
 
 <!-- HEADER -->
@@ -20,7 +21,7 @@ use common\models\Category as Cat;
 	        <span></span>
 	    </button>
 
-	    <?php if (Yii::$app->user->identity->role !== User::ROLE_SELLER) : ?>
+	    <?php if (User::isNotRole(User::ROLE_SELLER)) : ?>
 	        <a href="#" class="menu-button h-991">
 	              <?= Yii::t('app', 'Категорії'); ?>
 	              <svg width="11" height="7"><use xlink:href="#arrow"></use></svg>
@@ -48,7 +49,7 @@ use common\models\Category as Cat;
 			</div>
 	    <?php endif; ?>
 		
-		<?php if (Yii::$app->user->identity->role == User::ROLE_SELLER) : ?>
+		<?php if (User::isNotRole(User::ROLE_USER)) : ?>
 			<a href="/" class="logo d-none">
 			    <img src="/blabla/img/logo-black.svg" alt="">
 			</a>	
@@ -57,7 +58,7 @@ use common\models\Category as Cat;
 		
 				<h3 class="title h-991">
 					<?= Yii::t('app', 'Знайдено '); ?>	
-					<b><?= $countOrders ?></b>	
+					<b><?= (!empty($countOrders)) ? $countOrders : 0 ?></b>	
 					<?= Yii::t('app', ' запитів'); ?>	
 				</h3>
 
@@ -127,9 +128,9 @@ use common\models\Category as Cat;
 	</div>
     
     <?php 
-		if (Yii::$app->user->identity->role == User::ROLE_SELLER) {
+		if (User::isRole(User::ROLE_SELLER)) {
 			echo $this->render('@appTheme/cabinet/seller-sidebar');
-		} else if (Yii::$app->user->identity->role == User::ROLE_USER) {
+		} else if (User::isRole(User::ROLE_USER)) {
 			echo $this->render('@appTheme/cabinet/user-sidebar');
 		}
 	?>

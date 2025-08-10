@@ -98,12 +98,14 @@
 					</div>
 				<?php endif; ?>
 
-				<?php if (!empty($regionList[$region])) : ?>
-					<div class="region">
-						<?= Yii::t('app', 'Регіон - '); ?>
+				<?php if (!empty($region)) : ?>
+					<?php if (!empty($regionList[$region])) : ?>
+						<div class="region">
+							<?= Yii::t('app', 'Регіон - '); ?>
 
-		                <?= $regionList[$region] ?>
-					</div>
+			                <?= $regionList[$region] ?>
+						</div>
+					<?php endif; ?>
 				<?php endif; ?>
 
 				<div class="contacts">
@@ -119,23 +121,25 @@
 						<div class="email"><?= $email ?></div>
 					<?php endif ?>
 				</div>
-						
-				<?php 
-				$imagesDecoded = json_decode($images);
-				if (!empty($imagesDecoded) && is_array($imagesDecoded)) : ?>
-					<div class="list-files-uploaded">
-						<div class="wrap">
-							<ul class="gallery-offer">
-								<?php foreach ($imagesDecoded as $image) : ?>
-									<li>
-										<a data-fancybox="gallery" href="<?= htmlspecialchars($image, ENT_QUOTES); ?>">
-											<img src="<?= htmlspecialchars($image, ENT_QUOTES); ?>" alt="">
-										</a>
-									</li>
-								<?php endforeach; ?>
-							</ul>
+				
+				<?php if (!empty($images)) : ?>	
+					<?php 
+					$imagesDecoded = json_decode($images);
+					if (!empty($imagesDecoded) && is_array($imagesDecoded)) : ?>
+						<div class="list-files-uploaded">
+							<div class="wrap">
+								<ul class="gallery-offer">
+									<?php foreach ($imagesDecoded as $image) : ?>
+										<li>
+											<a data-fancybox="gallery" href="<?= htmlspecialchars($image, ENT_QUOTES); ?>">
+												<img src="<?= htmlspecialchars($image, ENT_QUOTES); ?>" alt="">
+											</a>
+										</li>
+									<?php endforeach; ?>
+								</ul>
+							</div>
 						</div>
-					</div>
+					<?php endif; ?>
 				<?php endif; ?>
 
 				<?php if (!empty($button)) : ?>

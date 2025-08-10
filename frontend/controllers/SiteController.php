@@ -134,7 +134,7 @@ class SiteController extends MenuController
                 $name = (isset($userInfo['name'])) ? $userInfo['name'] : $userInfo['email'];
 				        $name = str_replace('@gmail.com', '', $name);
                 $email = $userInfo['email'];
-                $generatePassword = md5($id . $name);
+                $generatePassword = md5($name);
 
                 $this->addUserSocial($name, $email, $generatePassword);
             }
@@ -407,7 +407,9 @@ class SiteController extends MenuController
      */
     public function actionIndex()
     {
-		if (Yii::$app->user->identity->role == User::ROLE_USER || Yii::$app->user->identity->role == User::ROLE_SELLER) {
+        $user = Yii::$app->user;
+        
+		if (!$user->isGuest && ($user->identity->role == User::ROLE_USER || $user->identity->role == User::ROLE_SELLER)) {
 			return $this->redirect(['cabinet/order']);
 		}
 		else {
@@ -667,8 +669,11 @@ class SiteController extends MenuController
                 $order->priceFrom = $post['priceFrom'];
                 $order->regionID = $post['regionID'];
                 $order->send = count($send_user);
-                if ($post['deadLine_submit'] <> '') {
-                    $order->deadLine = date('Y-m-d H:i:s', strtotime($post['deadLine_submit']));
+                
+                if (!empty($post['deadLine_submit'])) {
+                    if ($post['deadLine_submit'] <> '') {
+                        $order->deadLine = date('Y-m-d H:i:s', strtotime($post['deadLine_submit']));
+                    }
                 }
 
                 $order->status = 1;
@@ -1124,6 +1129,7 @@ class SiteController extends MenuController
         if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             $countFilters = 0;
+            $count = 0;
 
             if (!empty($post['region'])) {
                 foreach ($post['region'] as $region) {

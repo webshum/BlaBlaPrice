@@ -45,4 +45,23 @@ function dump($data) {
     echo '</div>';
 }
 
+function detectLanguage(array $availableLanguages, string $defaultLang = 'ua'): string
+{
+    session_start();
+
+    if (isset($_GET['lang']) && in_array($_GET['lang'], $availableLanguages, true)) {
+        $_SESSION['language'] = $_GET['lang'];
+    }
+
+    $lang = $_SESSION['language']
+        ?? ($_COOKIE['language'] ?? $defaultLang);
+
+    $_ENV['APP_CURRENT_LANG'] = $lang;
+    putenv("APP_CURRENT_LANG=$lang");
+
+    setcookie('language', $lang, time() + 86400 * 30, '/');
+
+    return $lang;
+}
+
 ?>

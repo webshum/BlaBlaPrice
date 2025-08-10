@@ -25,11 +25,22 @@ $user = User::findOne(['ID' => Yii::$app->user->id]);
 ?>
 
 <div class="popup-container wide">
-	<?= $this->render('@appTheme/components/request-head', [
-		'title' => $offer->order->product->name ? $offer->order->product->name : $offer->order->category->name,
-	
-		'button' => false
-	]); ?>
+	<?php
+		$title = '';
+
+		if (!empty($offer) && !empty($offer->order)) {
+			if (!empty($offer->order->product) && !empty($offer->order->product->name)) {
+				$title = $offer->order->product->name;
+			} elseif (!empty($offer->order->category) && !empty($offer->order->category->name)) {
+				$title = $offer->order->category->name;
+			}
+		}
+
+		echo $this->render('@appTheme/components/request-head', [
+			'title' => $title,
+			'button' => false
+		]);
+	?>
 
 	<div class="request-body">
 		<div class="request-body_inner">
@@ -57,7 +68,7 @@ $user = User::findOne(['ID' => Yii::$app->user->id]);
 		    		'budget' => $offer->price,
 		    		'comment' => (!empty($offer->comment)) ? $offer->comment : false,
 		    		'date' => $offer->getCreatedAt(),
-		    		'class' => $rating['class'],
+		    		'class' => !empty($rating['class']) ? $rating['class'] : '',
 		    		'images' => $offer->image
 		    	]);
 			?>
@@ -266,7 +277,7 @@ $user = User::findOne(['ID' => Yii::$app->user->id]);
 		<div class="tab-entry tab-spam">
 			<div class="request-foot">
 			  	<?php
-					if ($offer_comment) $comment_item = $offer_comment;
+					if (!empty($offer_comment)) $comment_item = $offer_comment;
 					else $comment_item = $comment;
 
 	                $form = ActiveForm::begin([
@@ -278,7 +289,8 @@ $user = User::findOne(['ID' => Yii::$app->user->id]);
 	                echo $form->field($comment_item,
 	                    'userToID')->hiddenInput(['value' => $offer->userID])->label(false);
 	                echo $form->field($comment_item, 'offerID')->hiddenInput(['value' => $offer->ID])->label(false);
-	                if ($offer_comment) {
+
+	                if (!empty($offer_comment)) {
 	                    echo $form->field($comment_item,
 	                        'ID')->hiddenInput(['value' => $offer_comment->ID])->label(false);
 	                }

@@ -18,7 +18,6 @@ use yii\helpers\Url;
 	        <?= $this->render('@appTheme/layouts/header'); ?>
 	    </div>
 	</div>
-
 	
 	<div class="flex">
 		<h2 class="heading"><?= Yii::t('app', 'Контакти компаній') ?></h2>
@@ -53,11 +52,22 @@ use yii\helpers\Url;
 	<?php foreach ($offer as $offers_item) : ?>
 		<?php if (($offers_item->getComment($user->ID)->one()) and !($offers_item->getRefuse($user->ID)->one())) : ?>	
 	        <div class="request open-popup" data-param="<?= $offers_item->getID() ?>" data-rel="user-accepted">
-	        	<?= $this->render('@appTheme/components/request-head', [
-	        		'title' => $offers_item->order->product->name ? $offers_item->order->product->name : $offers_item->order->category->name,
-	        	
-	        		'button' => true
-	        	]); ?>
+	        	<?php
+	        		$title = '';
+	        		
+					if (!empty($offers_item) && !empty($offers_item->order)) {
+						if (!empty($offers_item->order->product) && !empty($offers_item->order->product->name)) {
+							$title = $offers_item->order->product->name;
+						} elseif (!empty($offers_item->order->category) && !empty($offers_item->order->category->name)) {
+							$title = $offers_item->order->category->name;
+						}
+					}
+
+		        	echo $this->render('@appTheme/components/request-head', [
+		        		'title' => $title,
+		        		'button' => true
+		        	]); 
+	        	?>
 
 	        	<div class="request-body">
 	        		<?php

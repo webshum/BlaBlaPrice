@@ -1,0 +1,6 @@
+[02-Aug-2025 10:23:46 UTC] PHP Notice:  Trying to get property 'role' of non-object in /home/firko198/blablaprice.com/frontend/themes/blabla/layouts/aside-left.php on line 25
+[02-Aug-2025 10:23:46 UTC] PHP Notice:  Trying to get property 'role' of non-object in /home/firko198/blablaprice.com/frontend/themes/blabla/layouts/aside-left.php on line 27
+[02-Aug-2025 10:23:46 UTC] PHP Notice:  Undefined variable: currentPageUrl in /home/firko198/blablaprice.com/frontend/themes/blabla/layouts/main.php on line 131
+[02-Aug-2025 10:23:46 UTC] PHP Notice:  Trying to get property 'role' of non-object in /home/firko198/blablaprice.com/frontend/themes/blabla/layouts/aside-right.php on line 7
+[02-Aug-2025 10:23:46 UTC] PHP Notice:  Trying to get property 'role' of non-object in /home/firko198/blablaprice.com/frontend/themes/blabla/components/faq.php on line 27
+[02-Aug-2025 10:23:46 UTC] PHP Notice:  Trying to get property 'role' of non-object in /home/firko198/blablaprice.com/frontend/themes/blabla/components/faq.php on line 159

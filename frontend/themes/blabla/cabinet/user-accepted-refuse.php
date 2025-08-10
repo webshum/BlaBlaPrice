@@ -50,11 +50,20 @@ use yii\helpers\Url;
 
 	<?php foreach ($offer as $offers_item) : ?>
         <div class="request open-popup" data-param="<?= $offers_item->getID() ?>" data-rel="user-accepted">
-        	<?= $this->render('@appTheme/components/request-head', [
-		 		'title' => $offers_item->order->product->name ? $offers_item->order->product->name : $offers_item->order->category->name,
-		 		
-		 		'button' => true
-		 	]); ?>
+        	<?php
+				$title = '';
+
+				if (isset($offers_item->order->product->name)) {
+				    $title = $offers_item->order->product->name;
+				} elseif (isset($offers_item->order->category->name)) {
+				    $title = $offers_item->order->category->name;
+				}
+
+				echo $this->render('@appTheme/components/request-head', [
+				    'title' => $title,
+				    'button' => true
+				]);
+			?>
 
 		 	<div class="request-body">
 		 		<?php 

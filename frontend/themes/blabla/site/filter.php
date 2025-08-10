@@ -105,7 +105,7 @@ $secondLevel = Category::find()
     					
         	        	<?php echo Yii::t('app', 'Вкажи детальніше що ти шукаєш'); ?>
 						
-    				      <ul class="text-right sub-filter">
+    			<ul class="text-right sub-filter">
                     <?php foreach ($category->subCategory as $subCategory) : ?>
                         <li>
                             <a href="/site/filter?id=<?php echo $subCategory->ID; ?>">
@@ -138,13 +138,16 @@ $secondLevel = Category::find()
     			<div class="blabla-comment  dark not-first last" >
         	        <div class="text">
         	        	<b><?= Yii::t('app', 'Регіон запиту:'); ?></b>   
-                                   
+                        
+                        <?php if (!empty($regionList) && sizeof($regionList)): ?>
                         <select name="regionID" class="input">
                             <?php foreach ($regionList as $key => $region) : ?>
-                                <option value="<?php echo $key; ?>" <?php if ($key == $lastRegion->regionID) echo "selected"; ?>> <?= $region; ?>
+                                <option value="<?php echo $key; ?>"> 
+                                    <?= $region; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        <?php endif; ?>
     		        </div>
     			</div>
             <?php endif; ?>
@@ -180,9 +183,11 @@ $secondLevel = Category::find()
                             $linkClass = 'open-static-popup js-add-cookie-phone';
                             $linkDataRel = 'registration-user-phone';
 
-                            if ($user->phone_approved !== '0000-00-00 00:00:00') {
-                                $linkClass = 'submit-form';
-                                $linkDataRel = '';
+                            if (!empty($user)) {
+                                if ($user->phone_approved !== '0000-00-00 00:00:00') {
+                                    $linkClass = 'submit-form';
+                                    $linkDataRel = '';
+                                }
                             }
 
                             if (Yii::$app->user->isGuest) {
@@ -202,19 +207,16 @@ $secondLevel = Category::find()
         <?= Html::endForm(); ?>
     </div>
 	
-	 <?php if (!Yii::$app->user->identity->role == User::ROLE_SELLER) : ?>
-	
-		<div class="blabla-comment  dark " >
-    	        <div class="text">
-				  
-				
-    	        	<?= Yii::t('app', 'Якщо ти хочеш відповідати на запити з категорії'); ?>
-				    <b><?= $category->name; ?></b>
-					</br>
-					<a class="popup-button dark mt10 open-static-popup " data-rel="account-login">
-						<?= Yii::t('app', 'Реєструйся як продавець'); ?>
-                    </a>
-				</div>
+	<?php if (User::isRole(User::ROLE_SELLER)) : ?>
+		<div class="blabla-comment dark">
+	        <div class="text">
+	        	<?= Yii::t('app', 'Якщо ти хочеш відповідати на запити з категорії'); ?>
+			    <b><?= $category->name; ?></b>
+				</br>
+				<a class="popup-button dark mt10 open-static-popup " data-rel="account-login">
+					<?= Yii::t('app', 'Реєструйся як продавець'); ?>
+                </a>
+			</div>
         </div>
 	<?php endif; ?>
 </div>

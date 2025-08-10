@@ -2,9 +2,6 @@
 
 $params = array_merge(
     require(__DIR__ . '/../../common/config/params.php'),
-    require(__DIR__ . '/../../common/config/params-local.php'),
-    require(__DIR__ . '/params.php'),
-    require(__DIR__ . '/params-local.php')
 );
 
 $config = [
@@ -100,7 +97,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        'allowedIPs' => ['46.211.72.103', '::1'],
+        'allowedIPs' => ['*', '::1'],
     ];
 
     /* GII */
@@ -108,7 +105,7 @@ if (YII_ENV_DEV) {
     $config['modules']['gii'] = 'yii\gii\Module';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-        'allowedIPs' => ['46.211.72.103', '::1'],
+        'allowedIPs' => ['*', '::1'],
     ];
 }
 

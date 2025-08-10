@@ -4,8 +4,7 @@ use common\models\User;
 <?php $currentPageUrl = $_SERVER['REQUEST_URI'];?>
 <aside id="aside-right">
 	<div class="wrap">
-	<?php if (!Yii::$app->user->identity->role ) : ?>
-		
+	<?php if (!Yii::$app->user) : ?>
 		<div class="aside-dialog">
 			<div class="item">
 				<div class="image"><img src="/blabla/img/man-3.png" alt=""></div>
@@ -23,8 +22,8 @@ use common\models\User;
 				</div>
 			</div>	
 		</div>
-		
 	<?php endif; ?>
+
 		<!-- FAQ -->
 		<?= $this->render('@appTheme/components/faq'); ?>
 		<!-- // FAQ -->

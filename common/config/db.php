@@ -9,12 +9,6 @@ if ($_ENV['APP_ENV'] == 'local') {
         'charset' => 'utf8',
     ];
 } else {
-    if (session_status() == PHP_SESSION_NONE) {
-       session_start();
-    }
-
-    $lang = Yii::$app->language ?? 'ua';
-
     if ($_ENV['DB_ENV'] === 'local') {
         $db = [
             'class' => 'yii\db\Connection',
@@ -26,7 +20,7 @@ if ($_ENV['APP_ENV'] == 'local') {
     } else {
         $db = [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=firko198_bla_' . $lang,
+            'dsn' => 'mysql:host=localhost;dbname=firko198_bla_' . $_SESSION['language'],
             'username' => 'firko198_bla',
             'password' => 'NfAp)eM$9Ga(',
             'charset' => 'utf8',
